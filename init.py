@@ -12,7 +12,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import sys
 from ner.network import NER
 from ner.corpus import Corpus
 import json
@@ -23,7 +22,6 @@ import os
 
 # This script provides command line interface for Russian Named Entity recognition
 # Just run something like command below in terminal
-# echo "На конспирологическом саммите в США глава Федерального Бюро Расследований сделал невероятное заявление" | python3 ner.py
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 # Check existence of the model by hashsum
@@ -38,24 +36,14 @@ if md5_hashsum(sorted(glob('model/*'))) != 'fd50a27b96b24cdabdda13795a3baae7':
 with open('model/params.json') as f:
     network_params = json.load(f)
 
-
 corpus = Corpus(dicts_filepath='model/dict.txt')
 
 network = NER(corpus, verbouse=False, pretrained_model_filepath='model/ner_model', **network_params)
 
-
-def print_predict(sentence):
+def predict(sentence):
     # Split sentence into tokens
     tokens = tokenize(sentence)
-
-    # Lemmatize every token
-    # Example: был -> быть, его -> он
+    # TODO: Disable lemmas in future
     tokens_lemmas = lemmatize(tokens)
-
     tags = network.predict_for_token_batch([tokens_lemmas])[0]
-    for token, tag in zip(tokens, tags):
-        print(token, tag)
-
-
-for query in sys.stdin:
-    print_predict(query)
+    return tokens, tags
