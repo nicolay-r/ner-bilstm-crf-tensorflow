@@ -40,10 +40,6 @@ corpus = Corpus(dicts_filepath='model/dict.txt')
 
 network = NER(corpus, verbouse=False, pretrained_model_filepath='model/ner_model', **network_params)
 
-def predict(sentence):
-    # Split sentence into tokens
-    tokens = tokenize(sentence)
-    # TODO: Disable lemmas in future
-    tokens_lemmas = lemmatize(tokens)
+def predict(tokens_lemmas):
     tags = network.predict_for_token_batch([tokens_lemmas])[0]
-    return tokens, tags
+    return tokens_lemmas, tags
