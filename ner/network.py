@@ -147,7 +147,9 @@ class NER:
         loss = tf.reduce_mean(loss_tensor)
 
         # Initialize session
-        sess = tf.Session()
+        config = tf.ConfigProto()
+        config.gpu_options.allow_growth = True
+        sess = tf.Session(config=config)
         if verbouse:
             self.print_number_of_parameters()
         if logging:
