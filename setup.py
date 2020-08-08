@@ -11,7 +11,7 @@ def get_requirements(filename):
 
 setup(
     name='ner',
-    version='0.0.1',
+    version='0.0.2',
     description='Named-entity recognition for russian language',
     url='https://github.com/deepmipt/ner',
     author='???',
