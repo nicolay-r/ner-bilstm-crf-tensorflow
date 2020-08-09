@@ -23,9 +23,23 @@ architecture from https://arxiv.org/pdf/1603.01360.pdf.
 pip install .
 ```
 
-#### Using as a 
+#### Using as a service
 
-Install [Flask](http://flask.pocoo.org/), and start server as follows:
+Install [Flask](http://flask.pocoo.org/), and proceed with the following code:
 ```
-$ python3 start.py
+ 
+from flask import Flask, jsonify, request
+import init
+
+app = Flask(__name__)
+
+@app.route('/ner', methods=['POST'])
+def add():
+    data = request.get_json()
+    tokens, tags = init.predict(data['terms'])
+    return jsonify({'tokens': tokens, 'tags': tags})
+
+if __name__ == '__main__':
+    app.run(host='localhost', port='5000', debug=False)
 ```
+> NOTE: The latter should be refactored as it might be based on installed `ner` library.
