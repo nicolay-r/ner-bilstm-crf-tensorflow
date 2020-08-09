@@ -1,4 +1,4 @@
-# Additional Flask wrapper for DeepNER (Named Entity Recognition)
+# DeepNER (tensorflow-gpu)
 
 In this repo is a [flask](http://flask.pocoo.org/) wrapper over neural network
 architectures for named entity recognition (NER) from the paper "_Application
@@ -26,8 +26,7 @@ pip install .
 #### Using as a service
 
 Install [Flask](http://flask.pocoo.org/), and proceed with the following code:
-```
- 
+```python
 from flask import Flask, jsonify, request
 import init
 
