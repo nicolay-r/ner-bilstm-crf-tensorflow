@@ -40,6 +40,7 @@ class NER:
                  token_embeddings_dim=128,
                  char_embeddings_dim=50,
                  use_char_embeddins=True,
+                 mem_fraction=0.2,
                  pretrained_model_filepath=None,
                  embeddings_dropout=False,
                  dense_dropout=False,
@@ -57,6 +58,7 @@ class NER:
         n_tags = len(corpus.tag_dict)
         n_tokens = len(corpus.token_dict)
         n_chars = len(corpus.char_dict)
+
         embeddings_onethego = not concat_embeddings and \
                               corpus.embeddings is not None and \
                               not isinstance(corpus.embeddings, dict)
@@ -147,7 +149,8 @@ class NER:
         loss = tf.reduce_mean(loss_tensor)
 
         # Initialize session
-        config = tf.ConfigProto()
+        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=mem_fraction)
+        config = tf.ConfigProto(gpu_options=gpu_options)
         config.gpu_options.allow_growth = True
         sess = tf.Session(config=config)
         if verbouse:
